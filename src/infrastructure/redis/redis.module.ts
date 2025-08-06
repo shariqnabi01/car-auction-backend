@@ -4,6 +4,6 @@ import { RedisPubSubService } from '../redis/pubsub.service';
 
 @Module({
   providers: [RedisService, RedisPubSubService],
-  exports: [RedisService, RedisPubSubService], // <-- ensure RedisPubSubService is exported
+  exports: [RedisService, RedisPubSubService], 
 })
 export class RedisModule {}

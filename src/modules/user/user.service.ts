@@ -14,12 +14,12 @@ export class UserService {
     try {
       return await this.prisma.user.create({ data: dto });
     } catch (err: any) {
-      // ✅ Handle unique constraint error
+      //Handle unique constraint error
       if (err.code === 'P2002') {
         throw new ConflictException('Email or username already exists.');
       }
 
-      // ✅ Catch all other errors
+      //Catch all other errors
       throw new InternalServerErrorException('Failed to create user.');
     }
   }

@@ -6,8 +6,8 @@ async function main() {
   const auction = await prisma.auction.create({
     data: {
       title: 'Test Auction',
-      status: AuctionStatus.LIVE, // ✅ Enum value
-      startingBid: 1000,          // ✅ Required field
+      status: AuctionStatus.LIVE, 
+      startingBid: 1000,          
       currentBid: 1000,
       startTime: new Date(),
       endTime: new Date(Date.now() + 60 * 60 * 1000), // +1 hour

@@ -1,5 +1,3 @@
-// src/infrastructure/rabbitmq/rabbitmq.module.ts
-
 import { Global, Module } from '@nestjs/common';
 import { RabbitMQService } from '../rabbitmq/rabbitmq.service';
 

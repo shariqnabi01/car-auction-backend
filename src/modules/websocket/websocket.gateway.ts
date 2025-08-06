@@ -36,7 +36,7 @@ export class WebsocketGateway
     private readonly redisPubSub: RedisPubSubService,
   ) {}
 
-  /** ✅ Safely subscribe here */
+  /**  Safely subscribe here */
   async onModuleInit() {
     this.logger.log('WebSocket Gateway: onModuleInit');
 

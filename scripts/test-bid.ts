@@ -2,20 +2,20 @@ import { io } from 'socket.io-client';
 import { createClient } from 'redis';
 
 (async () => {
-  // ✅ Setup Redis client
+  // Setup Redis client
   const redis = createClient();
 
-  redis.on('error', (err) => console.error('❌ Redis error:', err));
+  redis.on('error', (err) => console.error(' Redis error:', err));
 
   await redis.connect();
-  console.log('✅ Redis connected');
+  console.log('Redis connected');
 
-  // ✅ Subscribe to Redis pub/sub
+  //  Subscribe to Redis pub/sub
   await redis.subscribe('bid_updates', (message) => {
     console.log('📢 Bid Update Received:', message);
   });
 
-  // ✅ Connect to WebSocket server
+  // Connect to WebSocket server
   const socket = io('http://localhost:3000/bid', {
     transports: ['websocket'],
   });
@@ -25,7 +25,7 @@ import { createClient } from 'redis';
   const bidAmount = 1600;
 
   socket.on('connect', () => {
-    console.log('✅ Connected to WebSocket');
+    console.log(' Connected to WebSocket');
 
     // Join auction room
     socket.emit('join_auction', { auctionId });
@@ -38,11 +38,11 @@ import { createClient } from 'redis';
   });
 
   socket.on('bid_success', (data) => {
-    console.log('✅ Bid placed successfully:', data);
+    console.log(' Bid placed successfully:', data);
   });
 
   socket.on('bid_error', (error) => {
-    console.error('❌ Bid failed:', error.message);
+    console.error(' Bid failed:', error.message);
   });
 
   // Keep process running

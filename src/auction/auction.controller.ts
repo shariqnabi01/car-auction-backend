@@ -29,7 +29,7 @@ export class AuctionController {
 
   @Get()
   async getAllAuctions() {
-    return this.auctionService.findAllAuctions(); // 🔥 REQUIRED
+    return this.auctionService.findAllAuctions(); // REQUIRED
   }
 
   @Get(':id')

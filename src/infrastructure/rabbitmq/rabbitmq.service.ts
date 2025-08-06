@@ -14,12 +14,12 @@ export class RabbitMQService implements OnModuleInit {
       throw new Error('RABBITMQ_URL is not defined in environment variables');
     }
 
-    // ✅ connect using promise-based connect
+    // connect using promise-based connect
     this.connection = await connect(rabbitmqUrl);
     this.channel = await this.connection.createChannel();
 
     await this.assertQueues();
-    console.log('✅ RabbitMQ connected');
+    console.log('RabbitMQ connected');
   }
 
   private async assertQueues() {
@@ -52,7 +52,7 @@ export class RabbitMQService implements OnModuleInit {
           callback(content);
           this.channel.ack(msg);
         } catch (error) {
-          console.error(`❌ Error handling message on ${queue}`, error);
+          console.error(` Error handling message on ${queue}`, error);
           this.channel.nack(msg, false, false);
         }
       }

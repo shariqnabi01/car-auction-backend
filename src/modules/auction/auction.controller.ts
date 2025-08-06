@@ -1,4 +1,3 @@
-// auction.controller.ts
 import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
 import { AuctionService } from './auction.service';
 

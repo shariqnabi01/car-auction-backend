@@ -13,7 +13,7 @@ async function placeBid(auctionId: string, bidAmount: number) {
   }
 
   if (bidAmount <= auction.currentBid) {
-    console.error(`❌ Bid must be higher than current bid (${auction.currentBid})`);
+    console.error(` Bid must be higher than current bid (${auction.currentBid})`);
     process.exit(1);
   }
 
@@ -25,7 +25,7 @@ async function placeBid(auctionId: string, bidAmount: number) {
     },
   });
 
-  console.log('✅ Bid placed successfully:', {
+  console.log(' Bid placed successfully:', {
     auctionId: updated.id,
     newBid: updated.currentBid,
     version: updated.version,

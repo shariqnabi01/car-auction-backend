@@ -1,5 +1,3 @@
-// src/modules/websocket/websocket.types.ts
-
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class JoinAuctionDto {
