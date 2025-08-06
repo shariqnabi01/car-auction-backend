@@ -1,0 +1,36 @@
+# version: "3.8"
+services:
+  postgres:
+    image: postgres:15
+    container_name: car_auction_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: car_auction
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6.2
+    container_name: car_auction_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: car_auctions_rabbitmq
+    ports:
+      - "5675:5672"
+      - "15675:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+volumes:
+  postgres_data:
+  redis_data:
