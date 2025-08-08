@@ -36,10 +36,9 @@ export class UserController {
   /**
    * Get all users
    * GET /users
-   * Uncomment if needed
    */
-  // @Get()
-  // async getAllUsers(): Promise<User[]> {
-  //   return this.userService.findAllUsers();
-  // }
+   @Get()
+   async getAllUsers(): Promise<User[]> {
+    return this.userService.findAllUsers();
+   }
 }
