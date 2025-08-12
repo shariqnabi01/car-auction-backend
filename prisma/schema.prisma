@@ -13,6 +13,7 @@ model User {
   id          String    @id @default(uuid())
   name        String
   email       String    @unique
+  password  String 
   bids        Bid[]
   auctionsWon Auction[] @relation("UserAuctionWinner")
 }
@@ -40,7 +41,7 @@ model Bid {
   id        String   @id @default(uuid())
   userId    String
   auctionId String
-  amount    Decimal
+  amount    Int
   user      User     @relation(fields: [userId], references: [id])
   auction   Auction  @relation(fields: [auctionId], references: [id])
   createdAt DateTime @default(now())

@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Auction & User Management</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; }
+  input, button { padding: 0.5rem; margin: 0.5rem 0; width: 100%; max-width: 300px; }
+  button.clear-btn { background: #ccc; color: #333; margin-left: 0.5rem; width: auto; }
+  .section { margin-bottom: 3rem; }
+  .item { border-bottom: 1px solid #ddd; padding: 0.5rem 0; }
+  .error { color: red; }
+  .success { color: green; }
+  .input-row { display: flex; align-items: center; }
+</style>
+</head>
+<body>
+
+  <style>/* Reset box sizing for consistency */
+* {
+  box-sizing: border-box;
+}
+
+/* Body & container */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 900px;
+  margin: 2rem auto;
+  background-color: #f5f7fa;
+  color: #222;
+  padding: 0 1rem;
+}
+
+/* Main title */
+h1 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+/* Section styling */
+.section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+  transition: box-shadow 0.3s ease;
+}
+.section:hover {
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.15);
+}
+
+/* Section headings */
+.section h2 {
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+  padding-bottom: 0.25rem;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  width: 100%;
+  max-width: 350px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1.8px solid #d1d5db;
+  border-radius: 6px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 6px #2563ebaa;
+}
+
+/* Buttons */
+button {
+  background-color: #2563eb;
+  border: none;
+  color: white;
+  padding: 0.65rem 1.2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  max-width: 350px;
+  width: 100%;
+  box-shadow: 0 3px 9px rgb(37 99 235 / 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+}
+button:hover {
+  background-color: #1e40af;
+  box-shadow: 0 5px 16px rgb(30 64 175 / 0.6);
+}
+
+/* Clear buttons */
+button.clear-btn {
+  background-color: #e5e7eb;
+  color: #555;
+  max-width: 90px;
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  font-weight: 500;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+  width: auto;
+}
+button.clear-btn:hover {
+  background-color: #d1d5db;
+}
+
+/* Flex container for input + clear btn */
+.input-row {
+  display: flex;
+  align-items: center;
+  max-width: 360px;
+  margin-bottom: 1rem;
+}
+.input-row input {
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+
+/* List items */
+.item {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.6rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Messages */
+.error {
+  color: #dc2626;
+  font-weight: 600;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+.success {
+  color: #16a34a;
+  font-weight: 600;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Output containers */
+#usersList,
+#bidHistory,
+#winnerDetails {
+  margin-top: 1rem;
+  max-width: 100%;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  body {
+    margin: 1rem 0.5rem;
+  }
+  .section {
+    padding: 1rem 1.25rem;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  button {
+    max-width: 100%;
+  }
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  button.clear-btn {
+    margin-left: 0;
+    margin-top: 0.3rem;
+    max-width: 100%;
+  }
+}
+</style>
+<h1>Auction & User Management</h1>
+
+<!-- User Add Section -->
+<div class="section">
+  <h2>Add User</h2>
+  <input type="text" id="userName" placeholder="Name" />
+  <input type="email" id="userEmail" placeholder="Email" />
+  <input type="password" id="userPassword" placeholder="Password" />
+  <button id="addUserBtn">Create User</button>
+  <p id="userMsg"></p>
+</div>
+
+<!-- User List Section -->
+<div class="section">
+  <h2>Users List</h2>
+  <button id="refreshUsersBtn">Refresh Users</button>
+  <div id="usersList"></div>
+</div>
+
+<!-- Auction: Place Bid Section -->
+<div class="section">
+  <h2>Place a Bid</h2>
+  <input type="text" id="auctionId" placeholder="Auction ID" />
+  <input type="text" id="bidUserId" placeholder="User ID" />
+  <input type="number" id="bidAmount" placeholder="Bid Amount" />
+  <button id="placeBidBtn">Place Bid</button>
+  <p id="bidResult"></p>
+</div>
+
+<!-- Auction: Bid History Section -->
+<div class="section">
+  <h2>Bid History</h2>
+  <input type="text" id="historyAuctionId" placeholder="Auction ID" />
+  <button id="getHistoryBtn">Get Bid History</button>
+  <div id="bidHistory"></div>
+</div>
+
+<!-- Auction: Winner Details Section -->
+<div class="section">
+  <h2>Current Winner</h2>
+  <input type="text" id="winnerAuctionId" placeholder="Auction ID" />
+  <button id="getWinnerBtn">Get Winner Details</button>
+  <div id="winnerDetails"></div>
+</div>
+
+<script>
+const API_BASE = 'http://localhost:3000';
+
+// --- User Functions ---
+
+async function createUser() {
+  const name = document.getElementById('userName').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+  const password = document.getElementById('userPassword').value.trim();
+  const msgEl = document.getElementById('userMsg');
+  msgEl.textContent = '';
+  msgEl.className = '';
+
+  if (!name || !email || !password) {
+    msgEl.textContent = 'Please fill all user fields.';
+    msgEl.className = 'error';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
+    });
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || 'Failed to create user');
+    }
+    const data = await res.json();
+    msgEl.textContent = `User created with ID: ${data.id}`;
+    msgEl.className = 'success';
+    document.getElementById('userName').value = '';
+    document.getElementById('userEmail').value = '';
+    document.getElementById('userPassword').value = '';
+    fetchUsers(); // refresh list after create
+  } catch (err) {
+    msgEl.textContent = `Error: ${err.message}`;
+    msgEl.className = 'error';
+  }
+}
+
+async function fetchUsers() {
+  const container = document.getElementById('usersList');
+  container.innerHTML = '';
+
+  try {
+    const res = await fetch(`${API_BASE}/users`);
+    if (!res.ok) throw new Error('Failed to fetch users');
+    const users = await res.json();
+
+    if (users.length === 0) {
+      container.textContent = 'No users found.';
+      return;
+    }
+
+    users.forEach(user => {
+      const userDiv = document.createElement('div');
+      userDiv.className = 'item';
+
+      // User basic info
+      const userInfo = document.createElement('p');
+      userInfo.textContent = `${user.name} (${user.email}) - ID: ${user.id}`;
+      userDiv.appendChild(userInfo);
+
+      // Bids section
+      if (user.bids && user.bids.length > 0) {
+        const bidsList = document.createElement('ul');
+        user.bids.forEach(bid => {
+          const bidItem = document.createElement('li');
+          const auction = bid.auction || {};
+          bidItem.textContent = 
+            `Bid Amount: ${bid.amount}, Auction: ${auction.title || 'N/A'} (ID: ${auction.id || 'N/A'}), Bid Time: ${new Date(bid.createdAt).toLocaleString()}`;
+          bidsList.appendChild(bidItem);
+        });
+        userDiv.appendChild(bidsList);
+      } else {
+        const noBids = document.createElement('p');
+        noBids.textContent = 'No bids placed.';
+        userDiv.appendChild(noBids);
+      }
+
+      container.appendChild(userDiv);
+    });
+
+  } catch (err) {
+    container.textContent = `Error: ${err.message}`;
+    container.className = 'error';
+  }
+}
+
+// --- Auction Functions ---
+
+async function placeBid() {
+  const auctionId = document.getElementById('auctionId').value.trim();
+  const userId = document.getElementById('bidUserId').value.trim();
+  const amount = Number(document.getElementById('bidAmount').value);
+  const resultEl = document.getElementById('bidResult');
+  resultEl.textContent = '';
+  resultEl.className = '';
+
+  if (!auctionId || !userId || !amount) {
+    resultEl.textContent = 'Please fill all bid fields.';
+    resultEl.className = 'error';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/auctions/${auctionId}/bid`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, amount }),
+    });
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.message || 'Failed to place bid');
+    }
+    const data = await res.json();
+    resultEl.textContent = `Bid placed successfully with ID: ${data.id}`;
+    resultEl.className = 'success';
+    document.getElementById('auctionId').value = '';
+    document.getElementById('bidUserId').value = '';
+    document.getElementById('bidAmount').value = '';
+  } catch (err) {
+    resultEl.textContent = `Error: ${err.message}`;
+    resultEl.className = 'error';
+  }
+}
+
+async function getBidHistory() {
+  const auctionId = document.getElementById('historyAuctionId').value.trim();
+  const container = document.getElementById('bidHistory');
+  container.innerHTML = '';
+  container.className = '';
+
+  if (!auctionId) {
+    container.textContent = 'Please enter an auction ID.';
+    container.className = 'error';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/auctions/${auctionId}/bids`);
+    if (!res.ok) throw new Error('Failed to fetch bid history');
+    const bids = await res.json();
+
+    if (bids.length === 0) {
+      container.textContent = 'No bids found for this auction.';
+      return;
+    }
+
+    bids.forEach(bid => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.textContent = `${bid.user?.name || bid.userId} bid ${bid.amount} at ${new Date(bid.createdAt).toLocaleString()}`;
+      container.appendChild(div);
+    });
+  } catch (err) {
+    container.textContent = `Error: ${err.message}`;
+    container.className = 'error';
+  }
+}
+
+async function getWinnerDetails() {
+  const auctionId = document.getElementById('winnerAuctionId').value.trim();
+  const container = document.getElementById('winnerDetails');
+  container.innerHTML = '';
+  container.className = '';
+
+  if (!auctionId) {
+    container.textContent = 'Please enter an auction ID.';
+    container.className = 'error';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/auctions/${auctionId}/winner`);
+    if (!res.ok) throw new Error('Failed to fetch winner details');
+    const winner = await res.json();
+
+    if (!winner) {
+      container.textContent = 'No winner yet.';
+      return;
+    }
+
+    container.innerHTML = `
+      <p><strong>Name:</strong> ${winner.name}</p>
+      <p><strong>Email:</strong> ${winner.email}</p>
+    `;
+  } catch (err) {
+    container.textContent = `Error: ${err.message}`;
+    container.className = 'error';
+  }
+}
+
+// Event Listeners
+document.getElementById('addUserBtn').addEventListener('click', createUser);
+document.getElementById('refreshUsersBtn').addEventListener('click', fetchUsers);
+document.getElementById('placeBidBtn').addEventListener('click', placeBid);
+document.getElementById('getHistoryBtn').addEventListener('click', getBidHistory);
+document.getElementById('getWinnerBtn').addEventListener('click', getWinnerDetails);
+
+// Initial load
+fetchUsers();
+
+</script>
+
+</body>
+</html>

@@ -3,9 +3,16 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const auction = await prisma.auction.findUnique({
-    where: { id: '459c0cbb-097e-4d34-aa21-9d0cc2fe3fff' },
+  const now = new Date();
+
+  const auction = await prisma.auction.findFirst({
+    where: {
+      status: 'LIVE',
+      startTime: { lte: now },
+      endTime: { gte: now },
+    },
   });
+
   console.log('Current auction:', auction);
 }
 

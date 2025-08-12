@@ -8,6 +8,7 @@ import { RedisModule } from './infrastructure/redis/redis.module';
 import { RabbitMQModule } from './modules/../infrastructure/rabbitmq/rabbitmq.module';
 import { GatewayModule } from './modules/websocket/websocket.module'
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({
